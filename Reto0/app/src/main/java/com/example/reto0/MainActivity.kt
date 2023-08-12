@@ -39,8 +39,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         Text(
             text = "Hola $name",
             color = Color.White,
-            fontSize = 25.sp,
+            fontSize = 26.sp,
             textAlign = TextAlign.Center,
+            modifier = Modifier.padding(0.dp,50.dp),
 
         )
     }
