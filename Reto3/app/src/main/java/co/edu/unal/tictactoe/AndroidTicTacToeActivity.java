@@ -114,17 +114,20 @@ public class AndroidTicTacToeActivity extends Activity {
                         mGameOver = true;
                         ties++;
                         mInfoTextView.setText(R.string.result_tie);
-                        mTiesTextView.setText(String.valueOf(ties));
+                        mTiesTextView.setText(R.string.ties);
+                        mTiesTextView.append(String.valueOf(ties));
                     } else if (winner == 2) {
                         mGameOver = true;
                         human++;
                         mInfoTextView.setText(R.string.result_human_wins);
-                        mHumanTextView.setText(String.valueOf(human));
+                        mHumanTextView.setText(R.string.human);
+                        mHumanTextView.append(String.valueOf(human));
                     } else {
                         mGameOver = true;
                         android++;
                         mInfoTextView.setText(R.string.result_computer_wins);
-                        mAndroidTextView.setText(String.valueOf(android));
+                        mAndroidTextView.setText(R.string.android);
+                        mAndroidTextView.append(String.valueOf(android));
                     }
 
                 }
