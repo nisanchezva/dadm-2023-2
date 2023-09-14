@@ -25,6 +25,10 @@ public class TicTacToeGame {
     public static final char COMPUTER_PLAYER = 'O';
     public static final char OPEN_SPOT = ' ';
 
+    // The computer's difficulty levels
+    public enum DifficultyLevel {Easy, Harder, Expert};
+    // Current difficulty level
+    private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
     private Random mRand;
 
@@ -34,14 +38,11 @@ public class TicTacToeGame {
         mRand = new Random();
     }
 
-    private void displayBoard()	{
-        System.out.println();
-        System.out.println(mBoard[0] + " | " + mBoard[1] + " | " + mBoard[2]);
-        System.out.println("-----------");
-        System.out.println(mBoard[3] + " | " + mBoard[4] + " | " + mBoard[5]);
-        System.out.println("-----------");
-        System.out.println(mBoard[6] + " | " + mBoard[7] + " | " + mBoard[8]);
-        System.out.println();
+    public DifficultyLevel getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+        mDifficultyLevel = difficultyLevel;
     }
 
 
@@ -64,50 +65,73 @@ public class TicTacToeGame {
      * to actually make the computer move to that location.
      * @return The best move for the computer to make (0-8).
      */
-    public int getComputerMove()
-    {
-        int move;
 
+    public int getRandomMove(){
+        // Generate random move
+        int move;
+        do
+        {
+            move = mRand.nextInt(BOARD_SIZE);
+        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
+        return move;
+    };
+
+    public int getWinningMove(){
         // First see if there's a move O can make to win
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
                 char curr = mBoard[i];
                 setMove(COMPUTER_PLAYER,i);
                 if (checkForWinner() == 3) {
-                    System.out.println("Computer is moving to " + (i + 1));
+                    setMove(curr,i);
                     return i;
                 }
                 else
                     setMove(curr,i);
             }
         }
+        return -1;
+    };
 
+    public int getBlockingMove(){
         // See if there's a move O can make to block X from winning
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
                 char curr = mBoard[i];   // Save the current number
                 setMove(HUMAN_PLAYER,i);
                 if (checkForWinner() == 2) {
-                    setMove(COMPUTER_PLAYER,i);
-                    System.out.println("Computer is moving to " + (i + 1));
+                    //Set it back to the prior state
+                    setMove(curr,i);
                     return i;
                 }
                 else
                     setMove(curr,i);
             }
         }
+        return -1;
+    };
 
-        // Generate random move
-        do
-        {
-            move = mRand.nextInt(BOARD_SIZE);
-        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
-
-        System.out.println("Computer is moving to " + (move + 1));
-
-        setMove(COMPUTER_PLAYER,move);
+    public int getComputerMove() {
+        int move = -1;
+        if (mDifficultyLevel == DifficultyLevel.Easy)
+            move = getRandomMove();
+        else if (mDifficultyLevel == DifficultyLevel.Harder) {
+            move = getWinningMove();
+            if (move == -1)
+                move = getRandomMove();
+        }
+        else if (mDifficultyLevel == DifficultyLevel.Expert) {
+// Try to win, but if that's not possible, block.
+// If that's not possible, move anywhere.
+            move = getWinningMove();
+            if (move == -1)
+                move = getBlockingMove();
+            if (move == -1)
+                move = getRandomMove();
+        }
         return move;
     }
+
 
     /**
      * Check for a winner and return a status value indicating who has won.
