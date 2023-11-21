@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <TextView
+                android:id="@+id/agregarEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:text="Agregar Empresa" />
+
+
+            <EditText
+                android:id="@+id/textoNombreEmpresa"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:inputType="text"
+                android:hint="Nombre" />
+
+            <EditText
+                android:id="@+id/textoUrlEmpresa"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:inputType="text"
+                android:hint="Url" />
+
+        <EditText
+            android:id="@+id/textoTelefonoEmpresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:hint="Telefono" />
+
+        <EditText
+            android:id="@+id/textoEmailEmpresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:inputType="text"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/textoProducosEmpresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:inputType="text"
+            android:hint="Productos" />
+
+        <EditText
+            android:id="@+id/textoClasificacionEmpresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:inputType="text"
+            android:hint="Clasificación" />
+
+        <Button
+            android:id="@+id/buttonInsertar"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="btnInsert"
+            android:text="Insertar"
+            android:gravity="center"
+            android:backgroundTint="#87CEFA"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <TextView
+            android:id="@+id/eliminarEmpresa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:textSize="24sp"
+            android:text="Eliminar Empresa" />
+
+
+        <EditText
+            android:id="@+id/textoIdEmpresa"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:hint="Id" />
+
+        <Button
+            android:id="@+id/buttonEliminar"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="btnDelete"
+            android:text="Eliminar"
+            android:gravity="center"
+            android:backgroundTint="#87CEFA"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+    <TextView
+            android:id="@+id/ModificarEmpresa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:textSize="24sp"
+            android:text="Modificar Empresa" />
+
+        <Button
+            android:id="@+id/buttonActualizar"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="btnUpdate"
+            android:text="Actualizar"
+            android:gravity="center"
+            android:backgroundTint="#87CEFA"/>
+
+
+
+
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/VerEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:text="Ver Empresas" />
+
+
+            <EditText
+                android:id="@+id/textoFiltroNombreEmpresa"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:inputType="text"
+                android:hint="Nombre" />
+
+            <EditText
+                android:id="@+id/textoFiltroClasificacionEmpresa"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:inputType="text"
+                android:hint="Clasificación" />
+
+            <Button
+                android:id="@+id/buttonFiltrar"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="btnFetch"
+                android:text="Filtrar"
+                android:gravity="center"
+                android:backgroundTint="#87CEFA"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="200dp"
+                android:layout_height="280dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                />
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>

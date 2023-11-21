@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -51,14 +52,17 @@ public class AndroidTicTacToeActivity extends Activity {
 
     private int human;
     private int ties;
-
     private int android;
     private BoardView mBoardView;
 
     static final int DIALOG_DIFFICULTY_ID = 0;
     static final int DIALOG_QUIT_ID = 1;
     static final int ABOUT_ID = 2;
+    static final int RESET_SCORES = 3;
 
+    private SharedPreferences mPrefs;
+
+    private int difficulty;
 
     // Listen for touches on the board
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -98,20 +102,17 @@ public class AndroidTicTacToeActivity extends Activity {
                                 mGameOver = true;
                                 ties++;
                                 mInfoTextView.setText(R.string.result_tie);
-                                mTiesTextView.setText(R.string.ties);
-                                mTiesTextView.append(String.valueOf(ties));
+                                displayScores();
                             } else if (winner == 2) {
                                 mGameOver = true;
                                 human++;
                                 mInfoTextView.setText(R.string.result_human_wins);
-                                mHumanTextView.setText(R.string.human);
-                                mHumanTextView.append(String.valueOf(human));
+                                displayScores();
                             } else {
                                 mGameOver = true;
                                 android++;
                                 mInfoTextView.setText(R.string.result_computer_wins);
-                                mAndroidTextView.setText(R.string.android);
-                                mAndroidTextView.append(String.valueOf(android));
+                                displayScores();
                             }
 
                         }
@@ -136,26 +137,48 @@ public class AndroidTicTacToeActivity extends Activity {
 
 
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        human = 0;
-        ties = 0;
-        android = 0;
 
         mGame = new TicTacToeGame();
         mBoardView = (BoardView) findViewById(R.id.board);
         mBoardView.setGame(mGame);
         mBoardView.setOnTouchListener(mTouchListener);
 
+        mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+
+        // Restore the scores
+        human = mPrefs.getInt("mHumanWins", 0);
+        android = mPrefs.getInt("mComputerWins", 0);
+        ties = mPrefs.getInt("mTies", 0);
+        difficulty = mPrefs.getInt("difficulty", 0);
+
+
+
+        if(difficulty == 0){
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+        }else if(difficulty == 1){
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+        }else if(difficulty == 2){
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+        }
 
         mInfoTextView = (TextView) findViewById(R.id.information);
         mHumanTextView = (TextView) findViewById(R.id.Human);
         mTiesTextView = (TextView) findViewById(R.id.Ties);
         mAndroidTextView = (TextView) findViewById(R.id.Android);
-        mGame = new TicTacToeGame();
 
-        startNewGame();
+
+
+        if (savedInstanceState == null) {
+            startNewGame();
+        }
+        else {
+            onRestoreInstanceState(savedInstanceState);
+        }
+        displayScores();
+
     }
 
     // Set up the game board.
@@ -237,6 +260,10 @@ public class AndroidTicTacToeActivity extends Activity {
         }else if (itemId == R.id.about) {
             showDialog(ABOUT_ID);
             return true;
+        }else if (itemId == R.id.reset_scores) {
+            showDialog(RESET_SCORES);
+            return true;
+
         }
         return false;
     }
@@ -256,7 +283,7 @@ public class AndroidTicTacToeActivity extends Activity {
                         getResources().getString(R.string.difficulty_expert)};
                 // TODO: Set selected, an integer (0 to n-1), for the Difficulty dialog.
                 // selected is the radio button that should be selected.
-                int selected = 0;
+                int selected = difficulty;
 
                 builder.setSingleChoiceItems(levels, selected,
                         new DialogInterface.OnClickListener() {
@@ -267,10 +294,13 @@ public class AndroidTicTacToeActivity extends Activity {
                                 // Display the selected difficulty level
                                 if(item == 0){
                                     mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+                                    difficulty = 0;
                                 }else if(item == 1){
                                     mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+                                    difficulty = 1;
                                 }else if(item == 2){
                                     mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+                                    difficulty = 2;
                                 }
                                 Toast.makeText(getApplicationContext(), levels[item], Toast.LENGTH_SHORT).show();
 
@@ -304,6 +334,19 @@ public class AndroidTicTacToeActivity extends Activity {
                 dialog = builder.create();
                 break;
 
+            case RESET_SCORES:
+
+                human = 0;
+                android = 0;
+                ties = 0;
+
+                SharedPreferences.Editor ed = mPrefs.edit();
+                ed.putInt("mHumanWins", human);
+                ed.putInt("mComputerWins", android);
+                ed.putInt("mTies", ties);
+                ed.commit();
+
+                displayScores();
 
 
         }
@@ -332,6 +375,55 @@ public class AndroidTicTacToeActivity extends Activity {
 
     public void setTurno(char turno) {
         Turno = turno;
+    }
+
+    private void displayScores() {
+        mHumanTextView.setText(R.string.human);
+        mHumanTextView.append(String.valueOf(human));
+        mTiesTextView.setText(R.string.ties);
+        mTiesTextView.append(String.valueOf(ties));
+        mAndroidTextView.setText(R.string.android);
+        mAndroidTextView.append(String.valueOf(android));
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        try{
+            super.onSaveInstanceState(outState);
+            outState.putCharArray("board", mGame.getBoardState());
+            outState.putBoolean("mGameOver", mGameOver);
+            outState.putInt("mHumanWins", Integer.valueOf(human));
+            outState.putInt("mComputerWins", Integer.valueOf(android));
+            outState.putInt("mTies", Integer.valueOf(ties));
+            outState.putCharSequence("info", mInfoTextView.getText());
+            outState.putChar("mGoFirst", Turno);
+        }catch(Exception e){
+
+        };
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mGame.setBoardState(savedInstanceState.getCharArray("board"));
+        mGameOver = savedInstanceState.getBoolean("mGameOver");
+        mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
+        human = savedInstanceState.getInt("mHumanWins");
+        android = savedInstanceState.getInt("mComputerWins");
+        ties = savedInstanceState.getInt("mTies");
+        Turno = savedInstanceState.getChar("mGoFirst");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Save the current scores
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putInt("mHumanWins", human);
+        ed.putInt("mComputerWins", android);
+        ed.putInt("mTies", ties);
+        ed.putInt("difficulty", difficulty);
+        ed.commit();
     }
 
 }
