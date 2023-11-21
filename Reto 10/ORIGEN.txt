@@ -1,0 +1,3 @@
+https://www.datos.gov.co/Educaci-n/Apoyos-econ-micos-bienestar-universitario/xk8s-eeja
+
+Api : https://www.datos.gov.co/resource/xk8s-eeja.json?$query=SELECT%20periodo%2C%20genero%2C%20facultad%2C%20programa_academico%2C%20metodolog_a_lista_desplegable%2C%20nombre_del_apoyo_lista%2C%20fuente_de_recursos_de%2C%20valor_del_apoyo
