@@ -1,14 +1,14 @@
 <resources>
 
-
+    <!-- Tonos de Azul -->
     <color name="azul_oscuro">#003366</color>
     <color name="azul">#0066CC</color>
     <color name="azul_claro">#3399FF</color>
     <color name="azul_muy_claro">#99CCFF</color>
 
-
+    <!-- Tema Personalizado -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+        <!-- Cambia estos colores según tu elección -->
         <item name="colorPrimary">@color/azul</item>
         <item name="colorPrimaryDark">@color/azul_oscuro</item>
         <item name="colorAccent">@color/azul_claro</item>

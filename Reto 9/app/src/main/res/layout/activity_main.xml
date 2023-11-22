@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_search"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#88ffffff"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/edtLatitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Latitud"
+            android:inputType="numberDecimal|numberSigned" />
+
+        <EditText
+            android:id="@+id/edtLongitude"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_toEndOf="@id/edtLatitude"
+            android:hint="Longitud"
+            android:inputType="numberDecimal|numberSigned" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/edtLongitude"
+            android:layout_marginRight="5dp"
+
+            android:text="Buscar" />
+
+        <Button
+            android:id="@+id/btnMyLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/btnSearch"
+
+            android:text="Actual" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
